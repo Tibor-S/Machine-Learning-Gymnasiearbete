@@ -243,6 +243,9 @@ while cont:  # Run until solved
             del episode_reward_history[:1]
         running_reward = np.mean(episode_reward_history)
 
+        if frame_count % 1000000 == 0:
+            save()
+
         episode_count += 1
 
         if running_reward > 40:  # Condition to consider the task solved
