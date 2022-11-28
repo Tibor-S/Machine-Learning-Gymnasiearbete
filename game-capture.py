@@ -19,7 +19,7 @@ def getInp():
 
 
 SAVE_PATH = 'train-dataset.npz'
-FRAMES_PER_SAMPLE = 4
+FRAMES_PER_SAMPLE = 1
 NUM_ACTIONS = 4
 MAX_STEPS_PER_EP = 10000
 try:
@@ -68,15 +68,15 @@ try:
             if len(frameBuffer) % FRAMES_PER_SAMPLE == 0:
                 samples.append(frameBuffer)
                 labels.append(actionProb)
-                del frameBuffer[:1]
-
-            # Exit if done
-            if done:
-                break
+                frameBuffer.pop(0)
 
             # Update env
             state_next, _, done, _ = env.step(action)
             state = np.array(state_next)
+
+            # Exit if done
+            if done:
+                break
 except:
     while True:
         conf = input('SAVE? (y/n): ')
