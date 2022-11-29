@@ -1,3 +1,4 @@
+from copy import deepcopy
 import sys
 import time
 import gym
@@ -36,13 +37,10 @@ except BaseException as e:
 print(type(samples))
 print(type(labels))
 
-# Use the Baseline Atari environment because of Deepmind helper functions
 env = gym.make('BreakoutNoFrameskip-v4',
                render_mode='human')
-# Warp the frames, grey scale, stake four frame and scale to smaller ratio
 env = wrap_deepmind(env, frame_stack=True, scale=True)
 env.seed(42)
-spec = gym.envs.registration.spec('BreakoutNoFrameskip-v4')
 
 frameCount = 0
 frameBuffer = []
@@ -60,15 +58,19 @@ try:
             action = getInp()
 
             # Log state and action
-            frameBuffer.append(state)
+            if FRAMES_PER_SAMPLE != 1:
+                frameBuffer.append(state)
             actionProb = [0 for _ in range(4)]
             actionProb[action] = 1
 
             # Append state and action
-            if len(frameBuffer) % FRAMES_PER_SAMPLE == 0:
-                samples.append(frameBuffer)
-                labels.append(actionProb)
-                frameBuffer.pop(0)
+            if len(frameBuffer) % FRAMES_PER_SAMPLE == 0 or FRAMES_PER_SAMPLE == 1:
+                if FRAMES_PER_SAMPLE != 1:
+                    samples.append(deepcopy(frameBuffer))
+                    frameBuffer.pop(0)
+                else:
+                    samples.append(deepcopy(state))
+                labels.append(deepcopy(actionProb))
 
             # Update env
             state_next, _, done, _ = env.step(action)
