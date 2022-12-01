@@ -20,7 +20,7 @@ def getInp():
 
 
 SAVE_PATH = 'train-dataset.npz'
-FRAMES_PER_SAMPLE = 1
+FRAMES_PER_SAMPLE = 2
 NUM_ACTIONS = 4
 MAX_STEPS_PER_EP = 10000
 try:

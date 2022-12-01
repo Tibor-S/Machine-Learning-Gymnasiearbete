@@ -3,6 +3,7 @@ import numpy as np
 from keras import layers, Model
 
 num_actions = 4
+n = 20000
 DATASET_PATH = 'train-dataset.npz'
 SAVE_PATH = 'save/adam-model'
 BATCH_SIZE = 64
@@ -14,13 +15,19 @@ def get_dataset():
         samples = data['samples']
         labels = data['labels']
 
-    return tf.data.Dataset.from_tensor_slices((samples, labels))
+    indices = np.arange(samples.shape[0])
+    np.random.shuffle(indices)
+
+    samples = samples[indices]
+    labels = labels[indices]
+    return tf.data.Dataset.from_tensor_slices((samples[:n], labels[:n]))
 
 
 def create_q_model():
     # Network defined by the Deepmind paper
     inputs = layers.Input(
         shape=(
+            2,
             84,
             84,
             4,
@@ -47,9 +54,9 @@ print('Loading model')
 act_model = create_q_model()
 print('Loading dataset')
 dataset = get_dataset().shuffle(SHUFFLE_BUFFER_SIZE).batch(BATCH_SIZE)
-print('Fit model')
+print(f'Fit model (total epochs: {n // BATCH_SIZE})')
 try:
-    act_model.fit(dataset, epochs=10000 // BATCH_SIZE)
+    act_model.fit(dataset, epochs=(n // BATCH_SIZE))
     print('Save model')
     act_model.save(SAVE_PATH)
 except:

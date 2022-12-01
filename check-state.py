@@ -8,17 +8,6 @@ env = wrap_deepmind(env, frame_stack=True, scale=True)
 env.seed(42)
 
 arr = np.array(env.reset())
-# clr = np.array(
-#     [
-#         [
-#             [
-#                 [
-#                     (r, g, b, a)
-#                 ]
-#             ]
-#         ]
-#         for r in arr[:, :, 0]]
-# )
 
 
 print(np.max(arr))
