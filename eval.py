@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import os
 import re
 import numpy as np
-from main import DATASETS
+from train import DATASETS
 
 MODELS = [('Feed forward', 'ff'), ('Konvolutionellt', 'conv')]
 
@@ -27,7 +27,7 @@ def parse_models(dataset):
     d = dataset[0]
     model_log = []
     for name, short in MODELS:
-        path = f'{d}-{short}.log'
+        path = f'log/{d}-{short}.log'
         with open(path, 'r') as f:
             lines = f.readlines()
 

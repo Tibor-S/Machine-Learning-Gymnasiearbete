@@ -7,8 +7,8 @@ mnist_db = tf.keras.datasets.cifar10
 def conv_model(input_shape, output_shape):
     model = tf.keras.models.Sequential()
 
-    model.add(lay.Conv2D(16, kernel_size=(5, 5), padding='same',
-                         activation='relu', input_shape=input_shape))
+    model.add(lay.Conv2D(16, kernel_size=(5, 5), padding='same', activation='relu',
+                         input_shape=input_shape))
     model.add(lay.MaxPool2D((2, 2), 2))
     model.add(lay.Conv2D(32, kernel_size=(5, 5), activation='relu'))
     model.add(lay.MaxPool2D((2, 2), 2))
