@@ -6,15 +6,15 @@ import numpy as np
 import tensorflow as tf
 
 DATASETS = {
-    0: ('mnist', tf.keras.datasets.mnist),
-    1: ('fashion-mnist', tf.keras.datasets.fashion_mnist),
-    2: ('cifar-10', tf.keras.datasets.cifar10),
-    3: ('cifar-100', tf.keras.datasets.cifar100)
+    1: ('mnist', tf.keras.datasets.mnist),
+    2: ('fashion-mnist', tf.keras.datasets.fashion_mnist),
+    3: ('cifar-10', tf.keras.datasets.cifar10),
+    4: ('cifar-100', tf.keras.datasets.cifar100)
 }
 
 ACCEPT = {
-    0: 'Feed forward nätverkets summering',
-    1: 'Konvolutionära nätverkets summering',
+    1: 'Feed forward nätverkets summering',
+    2: 'Konvolutionära nätverkets summering',
 }
 
 

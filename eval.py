@@ -4,7 +4,12 @@ import re
 import numpy as np
 from train import DATASETS
 
+
 MODELS = [('Feed forward', 'ff'), ('Konvolutionellt', 'conv')]
+ACTIONS = {
+    1: ('Visa graf', lambda inp: show(DATASETS[inp])),
+    2: ('Spara graf', lambda inp: save(DATASETS[inp]))
+}
 
 
 def main():
@@ -20,7 +25,20 @@ def main():
             inp = int(input())
         except:
             inp = -1
-    graph(DATASETS[inp])
+    ds_i = inp
+
+    inp = -1
+    while not inp in ACTIONS.keys():
+        os.system('cls')
+        for key, (val, _) in ACTIONS.items():
+            print(f' {key} - {val}')
+        print('')
+        try:
+            inp = int(input())
+        except:
+            inp = -1
+    act = inp
+    ACTIONS[act][1](ds_i)
 
 
 def parse_models(dataset):
@@ -129,7 +147,18 @@ def graph(dataset):
     ax[2].yaxis.grid(True, which='major', color='grey', alpha=.25)
 
     fig.suptitle(dataset[0].upper())
+    fig.set_figwidth(12)
+
+
+def show(dataset):
+    graph(dataset)
     plt.show()
+
+
+def save(dataset):
+    graph(dataset)
+    path = f'graph/{dataset[0]}.png'
+    plt.savefig(path)
 
 
 if __name__ == '__main__':
