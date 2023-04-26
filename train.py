@@ -59,11 +59,11 @@ def main():
         except:
             inp = -1
         else:
-            if inp == 0:
+            if inp == 1:
                 os.system('cls')
                 ff_model.summary()
                 input('(Enter)')
-            elif inp == 1:
+            elif inp == 2:
                 os.system('cls')
                 conv_model.summary()
                 input('(Enter)')

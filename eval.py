@@ -8,7 +8,8 @@ from train import DATASETS
 MODELS = [('Feed forward', 'ff'), ('Konvolutionellt', 'conv')]
 ACTIONS = {
     1: ('Visa graf', lambda inp: show(DATASETS[inp])),
-    2: ('Spara graf', lambda inp: save(DATASETS[inp]))
+    2: ('Spara graf', lambda inp: save(DATASETS[inp])),
+    3: ('Visa exempel', lambda inp: layer_outputs(DATASETS[inp])),
 }
 
 
@@ -39,6 +40,12 @@ def main():
             inp = -1
     act = inp
     ACTIONS[act][1](ds_i)
+
+
+def models(dataset):
+    d = dataset[0]
+    for name, short in MODELS:
+        path = f'log/{d}-{short}.log'
 
 
 def parse_models(dataset):
@@ -102,6 +109,14 @@ def parse_models(dataset):
             'acc_log': acc_log,
         })
     return model_log
+
+
+def layer_outputs(dataset):
+    model = parse_models(dataset)
+    ds = dataset[1]
+    (_, _), (sample_test, label_test) = ds.load_data()
+
+    fig, ax = plt.subplots(1, 1)
 
 
 def graph(dataset):
